@@ -25,8 +25,19 @@ SECRET_KEY = 'django-insecure-u$vjf&lk3ewg=hfdafq%k256^#w1lpx8+9h)_h@r4=x0#nl6q=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'fymapp.xyz',
+    'www.fymapp.xyz',
+    'r8453rjs.up.railway.app',  # Replace with your actual Railway domain
+    'localhost',
+    '127.0.0.1',
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://fymapp.xyz',
+    'https://www.fymapp.xyz',
+     'https://fymapp-django-production.up.railway.app',  # Use actual Railway domain here
+]
 
 # Application definition
 
