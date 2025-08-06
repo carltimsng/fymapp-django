@@ -1,0 +1,281 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – FindYourMatch.au</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .app-header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 1rem 2rem;
+    }
+    
+    .logo {
+      color: #e91e63;
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    
+    main {
+      max-width: 480px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+    
+    /* Form styles */
+    #login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    input[type="email"],
+    input[type="password"] {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #e91e63;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+    }
+    
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: -0.5rem;
+    }
+    
+    /* Button styles */
+    button[type="submit"] {
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #d81b60;
+    }
+    
+    button[type="submit"]:disabled {
+      background-color: #f48fb1;
+      cursor: not-allowed;
+    }
+    
+    /* Error styles */
+    .errorlist {
+      color: #d32f2f;
+      padding: 12px;
+      margin: 0 0 1rem 0;
+      background-color: #ffebee;
+      border-radius: 6px;
+      list-style: none;
+      font-size: 0.9rem;
+    }
+    
+    .error {
+      color: #d32f2f;
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+    }
+    
+    /* Footer links */
+    .form-footer {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #666;
+    }
+    
+    .form-footer a {
+      color: #e91e63;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <!-- reCAPTCHA v3 script -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LcA3cQpAAAAAIXlYlcRc6jFjs7WjwFcJXHfX2dK"></script>
+</head>
+<body>
+  <header class="app-header">
+    <a href="{% url 'home' %}" class="logo">
+      <span class="logo-full">FindYourMatch</span>
+    </a>
+  </header>
+
+  <main>
+    <form id="login-form" method="POST" action="{% url 'login' %}">
+      {% csrf_token %}
+      
+      <!-- Display non-field errors -->
+      {% if form.non_field_errors %}
+        <ul class="errorlist">
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="form-group">
+        <label for="id_email">Email</label>
+        <input 
+          type="email" 
+          name="email" 
+          id="id_email" 
+          required
+          autocomplete="email"
+          value="{{ form.email.value|default:'' }}"
+          placeholder="your.email@example.com">
+        {% for error in form.email.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="form-group">
+        <label for="id_password">Password</label>
+        <input 
+          type="password" 
+          name="password" 
+          id="id_password" 
+          required
+          autocomplete="current-password"
+          placeholder="••••••••">
+        {% for error in form.password.errors %}
+          <div class="error">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Remember me option -->
+      <div class="remember-me">
+        <input type="checkbox" id="remember_me" name="remember_me">
+        <label for="remember_me">Remember me for 30 days</label>
+      </div>
+
+      <!-- Hidden input for reCAPTCHA v3 -->
+      <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+
+      <button type="submit" id="login-btn">Login</button>
+      
+      <!-- Form footer links -->
+      <div class="form-footer">
+        <a href="{% url 'password_reset' %}">Forgot your password?</a> • 
+        <a href="{% url 'signup' %}">Create new account</a>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    // Public site key - safe to expose
+    const SITE_KEY = '6LcA3cQpAAAAAIXlYlcRc6jFjs7WjwFcJXHfX2dK';
+    const loginBtn = document.getElementById('login-btn');
+    
+    // Initialize reCAPTCHA
+    function initRecaptcha() {
+      refreshRecaptchaToken();
+      
+      // Refresh token every 90 seconds (token expires after 2 mins)
+      setInterval(refreshRecaptchaToken, 90000);
+    }
+    
+    // Refresh reCAPTCHA token
+    function refreshRecaptchaToken() {
+      grecaptcha.ready(function() {
+        grecaptcha.execute(SITE_KEY, {action: 'login'})
+          .then(function(token) {
+            document.getElementById('g-recaptcha-response').value = token;
+          })
+          .catch(function(error) {
+            console.error('reCAPTCHA error:', error);
+          });
+      });
+    }
+    
+    // Handle form submission
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      // Prevent double submission
+      if (loginBtn.disabled) {
+        e.preventDefault();
+        return;
+      }
+      
+      // Update button state
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Authenticating...';
+      
+      // Refresh token immediately before submission
+      grecaptcha.ready(function() {
+        grecaptcha.execute(SITE_KEY, {action: 'login'})
+          .then(function(token) {
+            document.getElementById('g-recaptcha-response').value = token;
+            
+            // Add small delay to ensure token is set
+            setTimeout(function() {
+              e.target.submit();
+            }, 300);
+          })
+          .catch(function(error) {
+            console.error('reCAPTCHA error:', error);
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Login';
+            alert('Security verification failed. Please try again.');
+          });
+      });
+      
+      e.preventDefault();
+    });
+    
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', initRecaptcha);
+  </script>
+</body>
+</html>

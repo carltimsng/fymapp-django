@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Static Files Test</title>
+    {% load static %}
+</head>
+<body>
+    <h1>Static Files Test</h1>
+    <img src="{% static 'images/herogirl.jpg' %}" alt="Test Image" width="300">
+    <p>If you see the image above, static files are working.</p>
+</body>
+</html>
