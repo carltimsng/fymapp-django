@@ -1,3 +1,8 @@
+import os
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', '')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', '')
+
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'
@@ -20,7 +25,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',  # Add your pages app
+    'social_django',   # Add this for social auth
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',       # Google OAuth2
+    'social_core.backends.facebook.FacebookOAuth2',   # Facebook OAuth2
+    'django.contrib.auth.backends.ModelBackend',      # Default backend
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -31,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # Add this middleware
 ]
 
 ROOT_URLCONF = 'core.urls'  # Make sure this matches your project name
@@ -46,6 +60,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
+
             ],
         },
     },
@@ -99,3 +116,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = False  # For SVG support
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email configuration (development)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

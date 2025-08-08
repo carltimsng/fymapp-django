@@ -1,8 +1,10 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
+from pages import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('test/', views.test_view, name='test'),  # Add this line
+    path('admin/', admin.site.urls),
+    path('', include('pages.urls')),  # Your app URLs
+    path('auth/', include('social_django.urls', namespace='social')),  # Social auth URLs
 ]
+

@@ -699,8 +699,8 @@
         <span class="logo-short">FYM</span>
       </h1>
       <nav class="site-nav">
-        <a href="login.html">Login</a>
-        <a href="signup.html" class="btn-primary">Join Free Now</a>
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}" class="btn-cta">Join Free Now</a>
       </nav>
     </div>
   </header>
@@ -711,7 +711,7 @@
         <h2>Australia's Only <br>FREE Dating Website.</h2>
         <div class="hero-subrow">
           <p class="hero-subheading">Enjoy unrestricted access<br>No Hidden Costs or Payments.</p>
-          <a href="signup.html" class="btn-cta">Join Free Now</a>
+          <a href="{% url 'signup' %}" class="btn-cta">Join Free Now</a>
         </div>
       </div>
       <div class="hero-image-column">
@@ -778,7 +778,7 @@
       
       <p class="last-paragraph">Your Perfect Match is Waiting</p>
       <div class="cta-button-container">
-        <a href="signup.html" class="cta-button">Join now and meet them for free</a>
+        <a href="{% url 'signup' %}" class="cta-button">Join now and meet them for free</a>
       </div>
     </div>
   </section>
@@ -813,7 +813,7 @@
       </div>
 
       <div class="cta-button-container">
-        <a href="signup.html" class="btn-cta">Join Free Now</a>
+        <a href="{% url 'signup' %}" class="btn-cta">Join Free Now</a>
       </div>
     </div>
   </section>
@@ -827,7 +827,7 @@
       <div class="final-cta-left">
         <h2>Join Find Your Match Now</h2>
         <p>Your journey to finding a meaningful connection starts here. With thousands of verified members and a commitment to a safe, genuine community, you're one step away from meeting someone special. Sign up for free and discover your perfect match today!</p>
-        <a href="signup.html" class="cta-button">Join Free Now</a>
+        <a href="{% url 'signup' %}" class="btn-cta">Join Free Now</a>
       </div>
       <div class="final-cta-right">
         <ul>

@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up – FindYourMatch.au</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    :root {
+      --brand-primary-red: #ff3366;
+      --border-light: #ddd;
+      --background-white: #fff;
+      --text-dark: #333;
+      --text-light: #777;
+      --shadow-light: rgba(0,0,0,0.1);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    .app-header {
+      background-color: var(--background-white);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .app-header .logo {
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: var(--brand-primary-red);
+      text-decoration: none;
+      padding-left: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .app-header .logo .logo-short {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .app-header .logo .logo-full {
+        display: none;
+      }
+      .app-header .logo .logo-short {
+        display: inline;
+      }
+    }
+    .app-header .auth-buttons {
+      display: flex;
+      gap: 1rem;
+      padding-right: 1rem;
+    }
+    .app-header .auth-button {
+      background-color: var(--brand-primary-red);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: background-color 0.3s ease;
+    }
+    .app-header .auth-button:hover {
+      background-color: #e62e5c;
+    }
+    .app-header .auth-button.secondary {
+      background-color: transparent;
+      color: var(--brand-primary-red);
+      border: 1px solid var(--brand-primary-red);
+    }
+    .app-header .auth-button.secondary:hover {
+      background-color: rgba(255, 51, 102, 0.1);
+    }
+    @media (max-width: 991px) {
+      .app-header {
+        justify-content: space-between;
+        padding: 0.5rem 0.5rem;
+      }
+      .app-header .logo {
+        padding-left: 0;
+      }
+      .app-header .auth-buttons {
+        display: flex;
+        gap: 0.5rem;
+        padding-right: 0;
+      }
+      .app-header .auth-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+    }
+    .form-container {
+      background-color: var(--background-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-top: 1.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .form-container h1 {
+      color: var(--text-dark);
+      font-size: 2em;
+      margin-bottom: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+    .form-group input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-light);
+      border-radius: 5px;
+      font-family: inherit;
+      font-size: 1rem;
+      box-sizing: border-box;
+      background-color: var(--background-white);
+    }
+    .form-submit-button {
+      background-color: var(--brand-primary-red);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+    .form-submit-button:hover {
+      background-color: #e62e5c;
+    }
+    .form-link-text {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    .form-link-text a {
+      color: var(--brand-primary-red);
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .form-link-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <a href="{% url 'home' %}" class="logo">
+      <span class="logo-full">FindYourMatch</span>
+      <span class="logo-short">FYM</span>
+    </a>
+    <div class="auth-buttons">
+      <a href="{% url 'login' %}" class="auth-button secondary">Log In</a>
+      <a href="{% url 'signup' %}" class="auth-button">Join Free Now</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="form-container">
+      <h1>Join FindYourMatch.au</h1>
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form.email.label_tag }}
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div style="color: red; font-size: 0.9rem;">{{ form.email.errors }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="form-submit-button">Sign Up</button>
+      </form>
+
+      <p class="form-link-text">Already a member? <a href="{% url 'login' %}">Log In</a></p>
+    </div>
+  </main>
+</body>
+</html>
+
