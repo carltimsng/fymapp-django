@@ -27,6 +27,7 @@ urlpatterns = [
     path('messages/', pages_views.messages, name='messages'),
     path('account-settings/', pages_views.account_settings, name='account_settings'),
     path('hot-dates-full-list/', pages_views.hot_dates_full_list, name='hot_dates_full_list'),
+    path('python-version/', pages_views.python_version, name='python_version'),
 
     # Password reset
     path('password_reset/',

@@ -121,3 +121,9 @@ class CustomLoginView(LoginView):
 
         return super().form_valid(form)
 
+import sys
+from django.http import HttpResponse
+
+def python_version(request):
+    return HttpResponse(f"Python version: {sys.version}")
+
